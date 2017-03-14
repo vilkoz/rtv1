@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/14 19:00:21 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/15 00:39:25 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,9 @@ t_p3d				new_p3d(double x, double y, double z);
 t_o3d				*new_sphere(t_p3d center, double radius, int color);
 int					intersect_sphere(const void *data, const t_p3d ray_start,
 						const t_v3d ray, t_p3d *inter_p);
+t_v3d				rotate_v_x(t_v3d v, double sin_al, double cos_al);
+t_v3d				rotate_v_y(t_v3d v, double sin_al, double cos_al);
+t_v3d				rotate_v_z(t_v3d v, double sin_al, double cos_al);
+t_v3d				normalize(t_v3d v);
 
 #endif
