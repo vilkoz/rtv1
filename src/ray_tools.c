@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 20:16:59 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/13 20:40:03 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:36:24 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,16 @@
 t_v3d		new_v3d(double x, double y, double z)
 {
 	t_v3d	v;
+
+	v.x = x;
+	v.y = y;
+	v.z = z;
+	return (v);
+}
+
+t_p3d		new_p3d(double x, double y, double z)
+{
+	t_p3d	v;
 
 	v.x = x;
 	v.y = y;

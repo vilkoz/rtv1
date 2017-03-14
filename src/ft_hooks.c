@@ -6,11 +6,11 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 17:13:21 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/13 16:10:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/14 17:06:50 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "wolf.h"
+#include "rtv1.h"
 
 int		key_press(int key, t_e *e)
 {
@@ -30,7 +30,7 @@ int		key_release(int key, t_e *e)
 int		loop_hook(t_e *e)
 {
 	mlx_destroy_image(e->mlx, e->img);
-	e->img = mlx_new_image(e->mlx, e->width, e->height);
+	e->img = mlx_new_image(e->mlx, e->w, e->h);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	return (0);
 }

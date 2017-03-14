@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/13 20:40:16 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/14 19:00:21 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,10 @@
 # define _RTV1_H
 # define RAD (0.0175433)
 # define SIGN(x) ((x < 0) ? -1 : 1)
+# define FALSE 0
+# define TRUE 1
+# define SWAP(a, b) do{(a) ^= (b); (b) ^= (a); (a) ^= (b);} while(0);
+# define SWAP_D(a, b) do{double tmp = (a); (a) = (b); (b) = (tmp);} while(0);
 
 # include "../libft/libft.h"
 # include "mlx.h"
@@ -126,5 +130,9 @@ int					mouse_hook(int key, int x, int y, t_e *e);
 int					move_hook(int x, int y, t_e *e);
 double				dot_product(t_v3d v1, t_v3d v2);
 t_v3d				new_v3d(double x, double y, double z);
+t_p3d				new_p3d(double x, double y, double z);
+t_o3d				*new_sphere(t_p3d center, double radius, int color);
+int					intersect_sphere(const void *data, const t_p3d ray_start,
+						const t_v3d ray, t_p3d *inter_p);
 
 #endif

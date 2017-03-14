@@ -6,7 +6,7 @@
 #    By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 14:08:11 by vrybalko          #+#    #+#              #
-#    Updated: 2017/03/13 20:28:21 by vrybalko         ###   ########.fr        #
+#    Updated: 2017/03/14 17:07:10 by vrybalko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,7 +31,8 @@ SRCS = main.c						\
 			 ft_img_px_put.c	\
 			 ft_mlx_events.c	\
 			 ft_mlx_init.c		\
-			 ray_tools.c
+			 ray_tools.c			\
+			 sphere.c
 
 BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
