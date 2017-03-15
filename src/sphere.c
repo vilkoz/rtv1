@@ -6,11 +6,22 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 19:05:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/14 19:02:55 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/15 17:48:30 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+t_v3d	get_norm_sphere(void *dat, t_p3d inter_p)
+{
+	t_sphere	*sp;
+	t_v3d		res;
+
+	sp = (t_sphere *)dat;
+	res = new_v3d(inter_p.x - sp->center.x, inter_p.y - sp->center.y,
+		inter_p.z - sp->center.z);
+	return (normalize(res));
+}
 
 int		get_sphere_color(void *data, t_p3d inter_p)
 {
@@ -82,5 +93,6 @@ t_o3d	*new_sphere(t_p3d center, double radius, int color)
 	obj->data = (void *)sp;
 	obj->get_color = get_sphere_color;
 	obj->intersect = intersect_sphere;
+	obj->get_norm = get_norm_sphere;
 	return (obj);
 }

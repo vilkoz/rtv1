@@ -6,7 +6,7 @@
 #    By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 14:08:11 by vrybalko          #+#    #+#              #
-#    Updated: 2017/03/14 17:07:10 by vrybalko         ###   ########.fr        #
+#    Updated: 2017/03/15 17:37:45 by vrybalko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,10 @@ SRCS = main.c						\
 			 ft_mlx_events.c	\
 			 ft_mlx_init.c		\
 			 ray_tools.c			\
-			 sphere.c
+			 render.c					\
+			 scene.c					\
+			 sphere.c					\
+			 color.c
 
 BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
@@ -40,7 +43,7 @@ all: $(NAME)
 
 $(NAME): $(BINS)
 	make -C libft/
-	gcc -o $(NAME) $(BINS) $(FLAGS) $(FLAGS_X11) $(LIB)
+	gcc -o $(NAME) $(BINS) $(FLAGS) $(FLAGS_MLX) $(LIB)
 
 $(BIN_DIR)%.o: %.c
 	gcc $(FLAGS) -c -o $@ $<
