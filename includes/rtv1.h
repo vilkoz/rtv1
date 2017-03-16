@@ -6,12 +6,13 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/16 22:59:23 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/17 00:55:27 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _RTV1_H
 # define _RTV1_H
+# define EPSILON 0.00000001
 # define RAD (0.0175433)
 # define SIGN(x) ((x < 0) ? -1 : 1)
 # define FALSE 0
@@ -145,6 +146,17 @@ typedef struct		s_sphere
 	int				color;
 }					t_sphere;
 
+/*
+** plane
+*/
+
+typedef struct		s_plane
+{
+	t_p3d			p;
+	t_v3d			norm;
+	int				color;
+}					t_plane;
+
 t_e					*ft_mlx_init(void);
 void				ft_img_px_put(t_e *e, int x, int y, int rgb);
 void				ft_mlx_events(t_e *e);
@@ -188,4 +200,11 @@ double				cos_vectors(t_v3d v1, t_v3d v2);
 int					add_colors(int cl1, int cl2);
 int					mul_colors(int cl1, double k);
 int					shade_colors(int cl1, double k);
+
+/*
+** plane.c
+*/
+
+t_o3d				*new_plane(t_p3d p, t_v3d norm, int color);
+
 #endif

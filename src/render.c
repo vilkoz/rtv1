@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/16 23:38:56 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/17 01:04:22 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int			find_nearest(t_scene *s, t_v3d dir, t_p3d *inter_p, t_o3d **obj1,
 			}
 		}
 	}
-	if (min == 0)
+	if (min < EPSILON)
 		return (FALSE);
 	else
 	{
@@ -130,7 +130,7 @@ void		example(t_e *e)
 	obj[1] = new_sphere(new_p3d(-30, 0, -30), 10, 0xff00);
 	obj[2] = new_sphere(new_p3d(30, 0, -30), 10, 0xffa0);
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
-	obj[4] = new_sphere(new_p3d(0, -10050, 0), 10000, 0xffa500);
+	obj[4] = new_plane(new_p3d(0, -30, 0), new_v3d(0, 1, 0), 0xff0000);
 	ray = new_v3d(0, -1, 0);
 	ray = rotate_v_x(ray, sin(e->ang_x * RAD), cos(e->ang_x * RAD));
 	ray = rotate_v_y(ray, sin(e->ang_y * RAD), cos(e->ang_y * RAD));

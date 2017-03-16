@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 19:05:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/15 17:48:30 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/17 01:05:01 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		solve_quad(t_p3d p, double *t0, double *t1)
 
 	if ((d = p.y * p.y - 4 * p.x * p.z) < 0)
 		return (FALSE);
-	else if (d == 0)
+	else if (d < EPSILON)
 	{
 		*t0 = -0.5 * p.y / p.x;
 		*t1 = *t1;
