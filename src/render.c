@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/16 23:31:23 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/16 23:38:56 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,22 @@
 
 int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
 {
+	int		i;
 	t_o3d	*obj;
+	t_v3d	norm;
 	t_p3d	inter_p;
 	t_p3d	p_b;
-	t_v3d	norm;
 
-	if (find_nearest(s, normalize(
-		new_v3d(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z)), &inter_p, &obj, p1))
+	i = -1;
+	while (++i < s->obj_num)
 	{
+		obj = s->objects[i];
 		norm = obj->get_norm(obj->data, inter_p);
 		p_b = new_p3d(p1.x + norm.x * s->bias, p1.y + norm.y * s->bias,
 			p1.z + norm.z * s->bias);
-		if (find_nearest(s, normalize(new_v3d(p2.x - p_b.x, p2.y - p_b.y,
-							p2.z - p_b.z)), &inter_p, &obj, p_b))
+		if (obj->intersect(obj->data, p_b, normalize(
+			new_v3d(p2.x - p_b.x, p2.y - p_b.y, p2.z - p_b.z)), &inter_p))
 			return (FALSE);
-		else
-			return (TRUE);
 	}
 	return (TRUE);
 }
