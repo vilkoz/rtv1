@@ -6,11 +6,17 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 20:16:59 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/15 17:20:17 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/16 22:28:10 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+double		distance(t_p3d p1, t_p3d p2)
+{
+	return (sqrt((p1.x - p2.x) * (p1.x - p2.x) + (p1.y - p2.y) * (p1.y - p2.y) +
+				(p1.z - p2.z) * (p1.z - p2.z)));
+}
 
 t_v3d		normalize(t_v3d v)
 {

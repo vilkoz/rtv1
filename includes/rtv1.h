@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/16 16:56:30 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/16 22:59:23 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,11 +159,14 @@ t_o3d				*new_sphere(t_p3d center, double radius, int color);
 int					intersect_sphere(const void *data, const t_p3d ray_start,
 						const t_v3d ray, t_p3d *inter_p);
 void				example(t_e *e);
+int					find_nearest(t_scene *s, t_v3d dir, t_p3d *inter_p,
+					t_o3d **obj1, t_p3d s_point);
 
 /*
 ** ray_tools.c
 */
 
+double				distance(t_p3d p1, t_p3d p2);
 double				dot_product(t_v3d v1, t_v3d v2);
 t_v3d				rotate_v_x(t_v3d v, double sin_al, double cos_al);
 t_v3d				rotate_v_y(t_v3d v, double sin_al, double cos_al);
