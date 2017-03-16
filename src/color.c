@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:22:27 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/15 17:35:24 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/16 16:56:11 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,22 @@ int		mul_colors(int cl1, double k)
 	res.r = (res.r * k >= 255) ? 255 : res.r * k;
 	res.g = (res.g * k >= 255) ? 255 : res.g * k;
 	res.b = (res.b * k >= 255) ? 255 : res.b * k;
+	return (res.r << 16 | res.g << 8 | res.b);
+}
+
+int		shade_colors(int cl1, double k)
+{
+	t_rgb		res;
+
+	res = int_to_rgb(cl1);
+	res.r *= 1 - k;
+	res.g *= 1 - k;
+	res.b *= 1 - k;
+	res.r = (res.r < 0) ? 0 : res.r;
+	res.r = (res.r > 255) ? 255 : res.r;
+	res.g = (res.g < 0) ? 0 : res.g;
+	res.g = (res.g > 255) ? 255 : res.g;
+	res.b = (res.b < 0) ? 0 : res.b;
+	res.b = (res.b > 255) ? 255 : res.b;
 	return (res.r << 16 | res.g << 8 | res.b);
 }

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 17:25:07 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/13 18:59:52 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/16 19:42:41 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,8 @@ t_e			*ft_mlx_init(void)
 	e->w = 800;
 	e->win = mlx_new_window(e->mlx, e->w, e->h, "rtv1");
 	e->img = mlx_new_image(e->mlx, e->w, e->h);
+	e->ang_x = 17;
+	e->ang_y = 90;
+	e->bias = 0.01;
 	return (e);
 }

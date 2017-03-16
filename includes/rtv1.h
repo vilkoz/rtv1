@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/15 17:39:57 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/16 16:56:30 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,9 @@
 typedef struct		s_k
 {
 	int				gopa;
+	int				rot_x;
+	int				rot_y;
+	int				bias;
 }					t_k;
 
 typedef struct		s_p2d
@@ -107,12 +110,18 @@ typedef struct		s_e
 	void			*img;
 	int				h;
 	int				w;
+	int				ang_y;
+	int				ang_x;
+	double			bias;
+	t_k				k;
 }					t_e;
 
 typedef struct		s_cam
 {
 	t_p3d			pos;
 	t_v3d			dir;
+	t_p3d			sin;
+	t_p3d			cos;
 }					t_cam;
 
 typedef struct		s_scene
@@ -121,6 +130,7 @@ typedef struct		s_scene
 	t_o3d			**objects;
 	t_p3d			ls;
 	t_cam			cam;
+	double			bias;
 }					t_scene;
 
 /*
@@ -174,4 +184,5 @@ double				cos_vectors(t_v3d v1, t_v3d v2);
 
 int					add_colors(int cl1, int cl2);
 int					mul_colors(int cl1, double k);
+int					shade_colors(int cl1, double k);
 #endif

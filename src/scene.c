@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 16:27:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/15 16:50:42 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/16 15:00:18 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ t_cam		new_cam(t_p3d pos, t_v3d dir)
 
 	cam.pos = pos;
 	cam.dir = dir;
+	cam.cos.x = cos(cam.dir.x);
+	cam.cos.y = cos(cam.dir.y);
+	cam.cos.z = cos(cam.dir.z);
+	cam.sin.x = sin(cam.dir.x);
+	cam.sin.y = sin(cam.dir.y);
+	cam.sin.z = sin(cam.dir.z);
 	return (cam);
 }
 
