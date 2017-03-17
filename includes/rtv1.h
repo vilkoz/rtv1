@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/17 00:55:27 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/17 16:06:50 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,7 @@ int					intersect_sphere(const void *data, const t_p3d ray_start,
 						const t_v3d ray, t_p3d *inter_p);
 void				example(t_e *e);
 int					find_nearest(t_scene *s, t_v3d dir, t_p3d *inter_p,
-					t_o3d **obj1, t_p3d s_point);
+					t_o3d **obj1);
 
 /*
 ** ray_tools.c
