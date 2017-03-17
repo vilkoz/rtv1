@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/17 21:19:15 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 01:24:13 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void		find_intersect(t_e *e, t_scene *s)
 
 void		example(t_e *e)
 {
-	t_o3d		*obj[5];
+	t_o3d		*obj[6];
 	t_v3d		ray;
 	t_scene		*s;
 
@@ -130,13 +130,14 @@ void		example(t_e *e)
 	obj[1] = new_sphere(new_p3d(-30, 0, -30), 10, 0xff00);
 	obj[2] = new_sphere(new_p3d(30, 0, -30), 10, 0xffa0);
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
-	obj[4] = new_plane(new_p3d(-30, 0, 0), new_v3d(-1, 0, 0), 0xff0000);
+	obj[4] = new_plane(new_p3d(0, -10, 0), new_v3d(0, 1, 0), 0xff50ff);
+	obj[5] = new_plane(new_p3d(-40, 0, 0), new_v3d(1, 1, 0), 0xff50ff);
 	ray = new_v3d(0, -1, 0);
 	ray = rotate_v_x(ray, sin(e->ang_x * RAD), cos(e->ang_x * RAD));
 	ray = rotate_v_y(ray, sin(e->ang_y * RAD), cos(e->ang_y * RAD));
 	ray = rotate_v_z(ray, sin(70 * RAD), cos(70 * RAD));
 	printf("ray = %f %f %f\n", ray.x, ray.y, ray.z);
-	s = new_scene(5, obj, new_p3d(1000, 1000, 1000),
+	s = new_scene(6, obj, new_p3d(1000, 1000, 1000),
 		new_cam(new_p3d(0, 500, 0), ray));
 	s->bias = e->bias;
 	find_intersect(e, s);

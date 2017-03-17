@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 19:05:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/17 21:26:02 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 01:06:59 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,16 @@ int		intersect_plane(const void *data, const t_p3d ray_start,
 	double		dot;
 
 	pl = (t_plane *)data;
+	if (fabs(dot = dot_product(pl->norm, ray)) < EPSILON)
+		return (FALSE);
 	w = new_v3d(ray_start.x - pl->p.x, ray_start.y - pl->p.y,
 		ray_start.z - pl->p.z);
-	if ((dot = fabs(dot_product(pl->norm, ray))) < EPSILON)
+	if ((dot = -dot_product(pl->norm, w) / dot) < 0)
 		return (FALSE);
-	dot = -dot_product(pl->norm, w) / dot;
 	*inter_p = new_p3d(ray_start.x + ray.x * dot, ray_start.y + ray.y * dot,
 		ray_start.z + ray.z * dot);
 	if (dot_product(new_v3d(inter_p->x - ray_start.x, inter_p->y - ray_start.y,
-		inter_p->z - ray_start.z), ray) <= 0)
+		inter_p->z - ray_start.z), ray) < 0)
 		return (FALSE);
 	return (TRUE);
 }
