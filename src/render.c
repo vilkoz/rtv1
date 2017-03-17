@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/17 01:04:22 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/17 02:03:10 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
 	while (++i < s->obj_num)
 	{
 		obj = s->objects[i];
-		norm = obj->get_norm(obj->data, inter_p);
+		norm = obj->get_norm(obj->data, p1);
 		p_b = new_p3d(p1.x + norm.x * s->bias, p1.y + norm.y * s->bias,
 			p1.z + norm.z * s->bias);
 		if (obj->intersect(obj->data, p_b, normalize(
@@ -108,7 +108,7 @@ void		find_intersect(t_e *e, t_scene *s)
 		{
 			p.x = (x - e->w / 2.0);
 			p.y = (y - e->h / 2.0);
-			dir = new_v3d(p.x, p.y, 400);
+			dir = new_v3d(p.x, p.y, 300);
 			dir = rotate_v_x(dir, s->cam.sin.x, s->cam.cos.x);
 			dir = rotate_v_z(dir, s->cam.sin.z, s->cam.cos.z);
 			dir = rotate_v_y(dir, s->cam.sin.y, s->cam.cos.y);
@@ -122,7 +122,7 @@ void		find_intersect(t_e *e, t_scene *s)
 
 void		example(t_e *e)
 {
-	t_o3d		*obj[5];
+	t_o3d		*obj[6];
 	t_v3d		ray;
 	t_scene		*s;
 
@@ -130,14 +130,15 @@ void		example(t_e *e)
 	obj[1] = new_sphere(new_p3d(-30, 0, -30), 10, 0xff00);
 	obj[2] = new_sphere(new_p3d(30, 0, -30), 10, 0xffa0);
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
-	obj[4] = new_plane(new_p3d(0, -30, 0), new_v3d(0, 1, 0), 0xff0000);
+	obj[4] = new_plane(new_p3d(0, -20, 0), new_v3d(0, 1, 0), 0xff0000);
+	obj[5] = new_plane(new_p3d(0, 0, 0), new_v3d(0, 0, 1), 0xff00ff);
 	ray = new_v3d(0, -1, 0);
 	ray = rotate_v_x(ray, sin(e->ang_x * RAD), cos(e->ang_x * RAD));
 	ray = rotate_v_y(ray, sin(e->ang_y * RAD), cos(e->ang_y * RAD));
 	ray = rotate_v_z(ray, sin(70 * RAD), cos(70 * RAD));
 	printf("ray = %f %f %f\n", ray.x, ray.y, ray.z);
-	s = new_scene(5, obj, new_p3d(300, 200, 30),
-		new_cam(new_p3d(0, 200, 0), ray));
+	s = new_scene(6, obj, new_p3d(1000, 1000, 1000),
+		new_cam(new_p3d(0, 300, 20), ray));
 	s->bias = e->bias;
 	find_intersect(e, s);
 }

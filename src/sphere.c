@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 19:05:49 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/17 01:05:01 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/17 01:39:49 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ t_v3d	get_norm_sphere(void *dat, t_p3d inter_p)
 	sp = (t_sphere *)dat;
 	res = new_v3d(inter_p.x - sp->center.x, inter_p.y - sp->center.y,
 		inter_p.z - sp->center.z);
-	return (normalize(res));
+	res = normalize(res);
+	return (res);
 }
 
 int		get_sphere_color(void *data, t_p3d inter_p)
