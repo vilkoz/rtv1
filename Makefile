@@ -6,7 +6,7 @@
 #    By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 14:08:11 by vrybalko          #+#    #+#              #
-#    Updated: 2017/03/17 00:54:25 by vrybalko         ###   ########.fr        #
+#    Updated: 2017/03/18 18:26:50 by vrybalko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,17 +26,18 @@ FLAGS_X11 = -lmlx -lXext -lX11 -lm
 
 LIB = libft/libft.a
 
-SRCS = main.c					\
+SRCS = main.c						\
        ft_hooks.c				\
 			 ft_img_px_put.c	\
 			 ft_mlx_events.c	\
 			 ft_mlx_init.c		\
-			 ray_tools.c		\
-			 render.c			\
-			 scene.c			\
-			 sphere.c			\
-			 color.c			\
-			 plane.c
+			 ray_tools.c			\
+			 render.c					\
+			 scene.c					\
+			 sphere.c					\
+			 color.c					\
+			 plane.c					\
+			 matrix.c
 
 BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
@@ -44,7 +45,7 @@ all: $(NAME)
 
 $(NAME): $(BINS)
 	make -C libft/
-	gcc -o $(NAME) $(BINS) $(FLAGS) $(FLAGS_X11) $(LIB)
+	gcc -o $(NAME) $(BINS) $(FLAGS) $(FLAGS_MLX) $(LIB)
 
 $(BIN_DIR)%.o: %.c
 	gcc $(FLAGS) -c -o $@ $<

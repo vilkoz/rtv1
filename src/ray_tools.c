@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 20:16:59 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/17 00:28:13 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 14:44:48 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,16 @@ t_p3d		new_p3d(double x, double y, double z)
 double		dot_product(t_v3d v1, t_v3d v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
+}
+
+t_v3d		cross_product(t_v3d a, t_v3d b)
+{
+	t_v3d		res;
+
+	res.x = a.y * b.z - a.z * b.y;
+	res.y = a.z * b.x - a.x * b.z;
+	res.z = a.x * b.y - a.y * b.x;
+	return (res);
 }
 
 double		cos_vectors(t_v3d v1, t_v3d v2)

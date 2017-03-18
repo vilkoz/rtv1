@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/17 16:06:50 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 20:30:47 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct		s_k
 	int				gopa;
 	int				rot_x;
 	int				rot_y;
+	int				rot_z;
 	int				bias;
 }					t_k;
 
@@ -65,6 +66,11 @@ typedef struct		s_rgb
 	int				g;
 	int				b;
 }					t_rgb;
+
+typedef struct		s_mat
+{
+	double			m[4][4];
+}					t_mat;
 
 /*
 ** Object3D
@@ -113,6 +119,9 @@ typedef struct		s_e
 	int				w;
 	int				ang_y;
 	int				ang_x;
+	int				ang_z;
+	int				v_x;
+	int				v_y;
 	double			bias;
 	t_k				k;
 }					t_e;
@@ -121,6 +130,8 @@ typedef struct		s_cam
 {
 	t_p3d			pos;
 	t_v3d			dir;
+	t_v3d			dir_d;
+	t_v3d			dir_r;
 	t_p3d			sin;
 	t_p3d			cos;
 }					t_cam;
@@ -184,6 +195,7 @@ t_v3d				rotate_v_x(t_v3d v, double sin_al, double cos_al);
 t_v3d				rotate_v_y(t_v3d v, double sin_al, double cos_al);
 t_v3d				rotate_v_z(t_v3d v, double sin_al, double cos_al);
 t_v3d				normalize(t_v3d v);
+t_v3d				cross_product(t_v3d a, t_v3d b);
 
 /*
 ** scene.c
@@ -192,6 +204,8 @@ t_v3d				normalize(t_v3d v);
 t_scene				*new_scene(int obj_num, t_o3d **obj, t_p3d ls, t_cam cam);
 t_cam				new_cam(t_p3d pos, t_v3d dir);
 double				cos_vectors(t_v3d v1, t_v3d v2);
+void				rotate_cam_x(t_cam *cam, double ang);
+t_v3d				pix_vector(t_p2d p, t_scene *s);
 
 /*
 ** color.c
@@ -206,5 +220,15 @@ int					shade_colors(int cl1, double k);
 */
 
 t_o3d				*new_plane(t_p3d p, t_v3d norm, int color);
+
+/*
+** matrix.c
+*/
+
+t_mat				mat_inverse(t_mat a);
+t_mat				mat_mul(t_mat a, t_mat b);
+t_mat				new_mat(t_v3d x, t_v3d y, t_v3d z);
+t_mat				new_mat_ang(double ang);
+t_mat				new_mat1(t_v3d x);
 
 #endif
