@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/18 20:40:14 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 23:50:46 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,7 @@ int			get_light_color(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
 			fabs(cos_vectors(norm, v_ls))));
 	}
 	else
-	{
-		v_ls = normalize(new_v3d(inter_p.x - s->ls.x, inter_p.y - s->ls.y,
-			inter_p.z - s->ls.z));
 		light_c = shade_colors(c, 0.7);
-	}
 	return (light_c);
 }
 
@@ -127,8 +123,9 @@ void		example(t_e *e)
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
 	obj[4] = new_plane(new_p3d(0, 0, 0), new_v3d(0, 1, 0), 0xff50ff);
 	ray = new_v3d(e->ang_x / 10., e->ang_y / 10., e->ang_z / 10.);
-	cam = new_cam(new_p3d(300, 300, 0), normalize(ray));
+	cam = new_cam(new_p3d(200, 300, 0), normalize(ray));
 	s = new_scene(5, obj, new_p3d(1000, 10, -60), cam);
 	s->bias = e->bias;
 	find_intersect(e, s);
+	e->changed = 0;
 }

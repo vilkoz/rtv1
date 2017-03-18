@@ -6,11 +6,18 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 15:26:45 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/13 16:34:28 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 23:51:19 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+int		expose_hook(t_e *e)
+{
+	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+	e->changed = 1;
+	return (0);
+}
 
 int		exit_hook(t_e *e)
 {
@@ -26,4 +33,5 @@ void	ft_mlx_events(t_e *e)
 	mlx_mouse_hook(e->win, mouse_hook, e);
 	mlx_hook(e->win, 6, 65, move_hook, e);
 	mlx_hook(e->win, 17, 1L << 17, exit_hook, e);
+	mlx_expose_hook(e->win, expose_hook, e);
 }

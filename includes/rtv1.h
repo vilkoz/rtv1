@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/18 20:30:47 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 23:49:51 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct		s_e
 	int				v_x;
 	int				v_y;
 	double			bias;
+	int				changed;
 	t_k				k;
 }					t_e;
 

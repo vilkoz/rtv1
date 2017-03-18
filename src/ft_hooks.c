@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 17:13:21 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/18 19:34:04 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 23:57:40 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int		key_release(int key, t_e *e)
 
 int		loop_hook(t_e *e)
 {
+	if (e->changed == 0)
+		return (0);
 	(e->k.rot_x == 1) ? e->ang_x += 1 : 23;
 	(e->k.rot_x == -1) ? e->ang_x -= 1 : 23;
 	(e->k.rot_y == 1) ? e->ang_y += 1 : 23;
@@ -46,9 +48,8 @@ int		loop_hook(t_e *e)
 	(e->k.rot_z == -1) ? e->ang_z -= 1 : 23;
 	(e->k.bias == -1) ? e->bias -= 0.1 : 23;
 	(e->k.bias == 1) ? e->bias += 0.1 : 23;
-	mlx_destroy_image(e->mlx, e->img);
-	e->img = mlx_new_image(e->mlx, e->w, e->h);
 	example(e);
+	mlx_clear_window(e->mlx, e->win);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	return (0);
 }
