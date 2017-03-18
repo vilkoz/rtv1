@@ -6,52 +6,50 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/18 01:24:13 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/18 10:58:31 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
+int			is_viewable(t_o3d *obj1, t_p3d p1, t_p3d p2, t_scene *s)
 {
 	int		i;
 	t_o3d	*obj;
-	t_v3d	norm;
 	t_p3d	inter_p;
-	t_p3d	p_b;
+	t_v3d	new;
 
 	i = -1;
 	while (++i < s->obj_num)
 	{
 		obj = s->objects[i];
-		norm = obj->get_norm(obj->data, p1);
-		p_b = new_p3d(p1.x + norm.x * s->bias, p1.y + norm.y * s->bias,
-			p1.z + norm.z * s->bias);
-		if (obj->intersect(obj->data, p_b, normalize(
-			new_v3d(p2.x - p_b.x, p2.y - p_b.y, p2.z - p_b.z)), &inter_p))
+		new = normalize(new_v3d(p2.x - p1.x, p2.y - p1.y, p2.z - p1.z));
+		if (obj->intersect(obj->data, p1, new, &inter_p) && obj != obj1)
 			return (FALSE);
 	}
 	return (TRUE);
 }
 
-int			get_light_color(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
+int			get_light_color(t_scene *s, t_o3d *obj, t_p3d inter_p)
 {
 	t_v3d		v_ls;
 	int			light_c;
 
-	if (is_viewable(inter_p, s->ls, s))
+	if (is_viewable(obj, inter_p, s->ls, s))
 	{
 		v_ls = normalize(new_v3d(s->ls.x - inter_p.x, s->ls.y - inter_p.y,
 			s->ls.z - inter_p.z));
-		light_c = add_colors(c, mul_colors(0xffffff,
-			fabs(cos_vectors(norm, v_ls))));
+		light_c = add_colors(obj->get_color(obj->data, inter_p),
+			mul_colors(0xffffff, fabs(cos_vectors(obj->get_norm(obj->data,
+				inter_p), v_ls))));
 	}
 	else
 	{
-		v_ls = normalize(new_v3d(inter_p.x - s->ls.x, inter_p.y - s->ls.y,
-			inter_p.z - s->ls.z));
-		light_c = shade_colors(c,
-			fabs(cos_vectors(norm, v_ls)));
+		// v_ls = normalize(new_v3d(inter_p.x - s->ls.x, inter_p.y - s->ls.y,
+			// inter_p.z - s->ls.z));
+		// light_c = shade_colors(c,
+		// 	fabs(cos_vectors(v_ls, norm)));
+		light_c = shade_colors(obj->get_color(obj->data, inter_p), 0.1);
 	}
 	return (light_c);
 }
@@ -114,8 +112,7 @@ void		find_intersect(t_e *e, t_scene *s)
 			dir = rotate_v_y(dir, s->cam.sin.y, s->cam.cos.y);
 			if (find_nearest(s, normalize(dir), &inter_p, &obj))
 				ft_img_px_put(e, p1.x, p1.y, get_light_color(s,
-					obj->get_norm(obj->data, inter_p), inter_p,
-					obj->get_color(obj->data, inter_p)));
+					obj, inter_p));
 		}
 	}
 }
@@ -130,14 +127,14 @@ void		example(t_e *e)
 	obj[1] = new_sphere(new_p3d(-30, 0, -30), 10, 0xff00);
 	obj[2] = new_sphere(new_p3d(30, 0, -30), 10, 0xffa0);
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
-	obj[4] = new_plane(new_p3d(0, -10, 0), new_v3d(0, 1, 0), 0xff50ff);
+	obj[4] = new_plane(new_p3d(0, -10, 0), new_v3d(0, -1, 0), 0xff50ff);
 	obj[5] = new_plane(new_p3d(-40, 0, 0), new_v3d(1, 1, 0), 0xff50ff);
 	ray = new_v3d(0, -1, 0);
 	ray = rotate_v_x(ray, sin(e->ang_x * RAD), cos(e->ang_x * RAD));
 	ray = rotate_v_y(ray, sin(e->ang_y * RAD), cos(e->ang_y * RAD));
 	ray = rotate_v_z(ray, sin(70 * RAD), cos(70 * RAD));
 	printf("ray = %f %f %f\n", ray.x, ray.y, ray.z);
-	s = new_scene(6, obj, new_p3d(1000, 1000, 1000),
+	s = new_scene(6, obj, new_p3d(0, 10, 0),
 		new_cam(new_p3d(0, 500, 0), ray));
 	s->bias = e->bias;
 	find_intersect(e, s);
