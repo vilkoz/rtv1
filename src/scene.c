@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 16:27:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 16:13:56 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/19 17:52:40 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void		rotate_cam_x(t_cam *cam, double ang)
 	new_y = cross_product(new_z, new_x);
 	res = new_mat(new_x, new_y, new_z);
 	inv = mat_inverse(res);
-	res = mat_mul(mat_mul(inv, new_mat_ang(ang)),
+	res = mat_mul(mat_mul(inv, new_mat_ang_x(ang)),
 		new_mat(new_x, new_y, new_z));
 	inv = new_mat1(new_v3d(cam->dir.x, cam->dir.y, cam->dir.z));
 	res = mat_mul(res, inv);

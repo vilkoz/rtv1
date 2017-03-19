@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 15:28:14 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 16:28:00 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/19 17:58:14 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,14 @@ int		intersect_cyl(const void *data, const t_p3d ray_start,
 	return (TRUE);
 }
 
-t_o3d	*new_cyl(t_p3d center, double radius, double h, int color)
+t_o3d	*new_cyl(t_vec v, double radius, double h, int color)
 {
 	t_cyl		*sp;
 	t_o3d		*obj;
 
 	sp = (t_cyl *)malloc(sizeof(t_cyl));
-	sp->center = center;
+	sp->center = v.p;
+	sp->dir = v.dir;
 	sp->radius = radius;
 	sp->color = color;
 	sp->h = h;

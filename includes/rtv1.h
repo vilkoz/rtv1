@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 16:16:05 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/19 21:32:04 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@
 # define TRUE 1
 # define SWAP(a, b) do{(a) ^= (b); (b) ^= (a); (a) ^= (b);} while(0);
 # define SWAP_D(a, b) do{double tmp = (a); (a) = (b); (b) = (tmp);} while(0);
+# define A2 (sp->dir.x * sp->dir.x)
+# define B2 (sp->dir.y * sp->dir.y)
+# define C2 (sp->dir.z * sp->dir.z)
 
 # include "../libft/libft.h"
 # include "mlx.h"
@@ -71,6 +74,12 @@ typedef struct		s_mat
 {
 	double			m[4][4];
 }					t_mat;
+
+typedef struct		s_vec
+{
+	t_v3d			dir;
+	t_p3d			p;
+}					t_vec;
 
 /*
 ** Object3D
@@ -172,13 +181,27 @@ typedef struct		s_plane
 /*
 ** cylinder
 */
+
 typedef struct		s_cyl
 {
 	t_p3d			center;
+	t_v3d			dir;
 	double			radius;
 	double			h;
 	int				color;
 }					t_cyl;
+
+/*
+** cone
+*/
+
+typedef struct		s_cone
+{
+	t_p3d			center;
+	t_v3d			dir;
+	double			h;
+	int				color;
+}					t_cone;
 
 t_e					*ft_mlx_init(void);
 void				ft_img_px_put(t_e *e, int x, int y, int rgb);
@@ -188,8 +211,6 @@ int					key_press(int key, t_e *e);
 int					key_release(int key, t_e *e);
 int					mouse_hook(int key, int x, int y, t_e *e);
 int					move_hook(int x, int y, t_e *e);
-t_v3d				new_v3d(double x, double y, double z);
-t_p3d				new_p3d(double x, double y, double z);
 int					intersect_sphere(const void *data, const t_p3d ray_start,
 						const t_v3d ray, t_p3d *inter_p);
 void				example(t_e *e);
@@ -201,6 +222,10 @@ int					find_nearest(t_scene *s, t_v3d dir, t_p3d *inter_p,
 */
 
 double				distance(t_p3d p1, t_p3d p2);
+t_v3d				new_v3d(double x, double y, double z);
+t_v3d				new_v3d_p(t_p3d p1, t_p3d p2);
+t_p3d				new_p3d(double x, double y, double z);
+t_vec				new_vec(t_v3d v, t_p3d p);
 double				dot_product(t_v3d v1, t_v3d v2);
 t_v3d				rotate_v_x(t_v3d v, double sin_al, double cos_al);
 t_v3d				rotate_v_y(t_v3d v, double sin_al, double cos_al);
@@ -208,6 +233,7 @@ t_v3d				rotate_v_z(t_v3d v, double sin_al, double cos_al);
 t_v3d				normalize(t_v3d v);
 t_v3d				cross_product(t_v3d a, t_v3d b);
 t_v3d				mul_v3d(t_v3d v, double n);
+t_p3d				rot_p(t_p3d p, t_v3d ang, t_p3d center);
 
 /*
 ** scene.c
@@ -234,7 +260,8 @@ int					shade_colors(int cl1, double k);
 int					solve_quad(t_p3d p, double *t0, double *t1);
 t_o3d				*new_sphere(t_p3d center, double radius, int color);
 t_o3d				*new_plane(t_p3d p, t_v3d norm, int color);
-t_o3d				*new_cyl(t_p3d center, double radius, double h, int color);
+t_o3d				*new_cyl(t_vec v, double radius, double h, int color);
+t_o3d				*new_cone(t_vec v, double h, int color);
 
 /*
 ** matrix.c
@@ -243,7 +270,7 @@ t_o3d				*new_cyl(t_p3d center, double radius, double h, int color);
 t_mat				mat_inverse(t_mat a);
 t_mat				mat_mul(t_mat a, t_mat b);
 t_mat				new_mat(t_v3d x, t_v3d y, t_v3d z);
-t_mat				new_mat_ang(double ang);
+t_mat				new_mat_ang_x(double ang);
 t_mat				new_mat1(t_v3d x);
 
 #endif

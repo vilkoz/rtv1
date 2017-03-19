@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/18 15:12:39 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/18 18:50:57 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/19 17:51:13 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,55 @@ t_mat		mat_mul(t_mat a, t_mat b)
 	return (res);
 }
 
-t_mat		new_mat_ang(double ang)
+t_mat		new_mat_ang_x(double ang)
+{
+	t_mat	new;
+
+	new.m[0][0] = 1;
+	new.m[0][1] = 0;
+	new.m[0][2] = 0;
+	new.m[0][1] = 0;
+	new.m[0][3] = 0;
+	new.m[1][0] = 0;
+	new.m[1][1] = cos(ang);
+	new.m[1][2] = sin(ang);
+	new.m[1][3] = 0;
+	new.m[2][0] = 0;
+	new.m[2][1] = -sin(ang);
+	new.m[2][2] = cos(ang);
+	new.m[2][3] = 0;
+	new.m[3][0] = 0;
+	new.m[3][1] = 0;
+	new.m[3][2] = 0;
+	new.m[3][3] = 1;
+	return (new);
+}
+
+t_mat		new_mat_ang_y(double ang)
+{
+	t_mat	new;
+
+	new.m[0][0] = cos(ang);
+	new.m[0][1] = 0;
+	new.m[0][2] = sin(ang);
+	new.m[0][1] = 0;
+	new.m[0][3] = 0;
+	new.m[1][0] = 0;
+	new.m[1][1] = 1;
+	new.m[1][2] = 0;
+	new.m[1][3] = 0;
+	new.m[2][0] = -sin(ang);
+	new.m[2][1] = 0;
+	new.m[2][2] = cos(ang);
+	new.m[2][3] = 0;
+	new.m[3][0] = 0;
+	new.m[3][1] = 0;
+	new.m[3][2] = 0;
+	new.m[3][3] = 1;
+	return (new);
+}
+
+t_mat		new_mat_ang_z(double ang)
 {
 	t_mat	new;
 
@@ -173,4 +221,16 @@ t_mat		new_mat(t_v3d x, t_v3d y, t_v3d z)
 	new.m[3][2] = 0;
 	new.m[3][3] = 1;
 	return (new);
+}
+
+t_p3d		rot_p(t_p3d p, t_v3d ang, t_p3d center)
+{
+	t_mat	m;
+
+	m = mat_mul(new_mat_ang_x(ang.x), new_mat_ang_y(ang.y));
+	m = mat_mul(m, new_mat_ang_z(ang.z));
+	m = mat_mul(new_mat1(new_v3d(p.x - center.x, p.y - center.y,
+		p.z - center.z)), m);
+	return (new_p3d(m.m[0][0] + center.x, m.m[1][0] + center.y,
+		m.m[2][0] + center.z));
 }

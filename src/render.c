@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 16:31:21 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/19 22:11:26 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int			get_light_color(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
 			light_c = add_colors(light_c, mul_colors(light_c, cosv));
 	}
 	else
-		light_c = shade_colors(c, 0.95);
+		light_c = shade_colors(c, 0.975);
 	return (light_c);
 }
 
@@ -127,10 +127,13 @@ void		example(t_e *e)
 	obj[2] = new_sphere(new_p3d(30, 0, -30), 10, 0xffa0);
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
 	obj[4] = new_plane(new_p3d(0, 0, 0), new_v3d(0, 1, 0), 0xff50ff);
-	obj[5] = new_cyl(new_p3d(255, 0, 0), 100, 100, 0xffb0);
+	// obj[5] = new_cyl(new_vec(new_v3d(0, 0, 0), new_p3d(255, 0, 0)),
+	// 	100, 100, 0xffb0);
+	obj[5] = new_cone(new_vec(new_v3d(1, 0.5, 1), new_p3d(255, 0, 0)),
+		100, 0xffb0);
 	ray = new_v3d(e->ang_x / 10., e->ang_y / 10., e->ang_z / 10.);
 	cam = new_cam(new_p3d(200, 300, 0), normalize(ray));
-	s = new_scene(6, obj, new_p3d(1000, 1000, -300), cam);
+	s = new_scene(6, obj, new_p3d(0, 1000, 1000), cam);
 	s->bias = e->bias;
 	find_intersect(e, s);
 	e->changed = 0;
