@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 00:52:07 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/19 16:16:05 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,17 @@ typedef struct		s_plane
 	int				color;
 }					t_plane;
 
+/*
+** cylinder
+*/
+typedef struct		s_cyl
+{
+	t_p3d			center;
+	double			radius;
+	double			h;
+	int				color;
+}					t_cyl;
+
 t_e					*ft_mlx_init(void);
 void				ft_img_px_put(t_e *e, int x, int y, int rgb);
 void				ft_mlx_events(t_e *e);
@@ -179,7 +190,6 @@ int					mouse_hook(int key, int x, int y, t_e *e);
 int					move_hook(int x, int y, t_e *e);
 t_v3d				new_v3d(double x, double y, double z);
 t_p3d				new_p3d(double x, double y, double z);
-t_o3d				*new_sphere(t_p3d center, double radius, int color);
 int					intersect_sphere(const void *data, const t_p3d ray_start,
 						const t_v3d ray, t_p3d *inter_p);
 void				example(t_e *e);
@@ -218,10 +228,13 @@ int					mul_colors(int cl1, double k);
 int					shade_colors(int cl1, double k);
 
 /*
-** plane.c
+** objects
 */
 
+int					solve_quad(t_p3d p, double *t0, double *t1);
+t_o3d				*new_sphere(t_p3d center, double radius, int color);
 t_o3d				*new_plane(t_p3d p, t_v3d norm, int color);
+t_o3d				*new_cyl(t_p3d center, double radius, double h, int color);
 
 /*
 ** matrix.c
