@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 22:11:26 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/20 01:17:21 by tor              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,41 @@ int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
 	return (TRUE);
 }
 
+int			get_shifted_light(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
+{
+	t_v3d		v_ls;
+	double		cosv;
+	int			light_c;
+	double		shift;
+	int			i;
+	int			sum;
+
+	srand(2452345345);
+	i = -1;
+	light_c = c;
+	sum = c;
+	while (++i < 100)
+	{
+		shift = ((i % 2 ? 1. : -1.)) * (rand() % 100);
+		if (is_viewable(inter_p, new_p3d(s->ls.x + shift, s->ls.y - shift,
+			s->ls.z + shift), s))
+		{
+			light_c = add_colors(light_c, mul_colors(0xffffff, 0.4));
+			v_ls = normalize(new_v3d(s->ls.x - inter_p.x, s->ls.y - inter_p.y,
+				s->ls.z - inter_p.z));
+			cosv = (dot_product(normalize(norm), normalize(v_ls)) - 0.95) * 20;
+			if ((cosv) < 0.1)
+				light_c = shade_colors(light_c, (1 - cosv) / 21);
+			else
+				light_c = add_colors(light_c, mul_colors(light_c, cosv));
+		}
+		else
+			light_c = shade_colors(c, 0.1);
+		sum = mix_colors(sum, light_c);
+	}
+	return (sum);
+}
+
 int			get_light_color(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
 {
 	t_v3d		v_ls;
@@ -52,7 +87,8 @@ int			get_light_color(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
 			light_c = add_colors(light_c, mul_colors(light_c, cosv));
 	}
 	else
-		light_c = shade_colors(c, 0.975);
+		//light_c = shade_colors(c, 0.975);
+		light_c = get_shifted_light(s, norm, inter_p, c);
 	return (light_c);
 }
 
@@ -117,7 +153,7 @@ void		find_intersect(t_e *e, t_scene *s)
 
 void		example(t_e *e)
 {
-	t_o3d		*obj[6];
+	t_o3d		*obj[7];
 	t_v3d		ray;
 	t_scene		*s;
 	t_cam		cam;
@@ -127,13 +163,13 @@ void		example(t_e *e)
 	obj[2] = new_sphere(new_p3d(30, 0, -30), 10, 0xffa0);
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
 	obj[4] = new_plane(new_p3d(0, 0, 0), new_v3d(0, 1, 0), 0xff50ff);
-	// obj[5] = new_cyl(new_vec(new_v3d(0, 0, 0), new_p3d(255, 0, 0)),
-	// 	100, 100, 0xffb0);
 	obj[5] = new_cone(new_vec(new_v3d(1, 0.5, 1), new_p3d(255, 0, 0)),
 		100, 0xffb0);
+	obj[6] = new_cyl(new_vec(new_v3d(0, 0, 0), new_p3d(0, 0, 0)),
+		10, 60, 0xffb0);
 	ray = new_v3d(e->ang_x / 10., e->ang_y / 10., e->ang_z / 10.);
 	cam = new_cam(new_p3d(200, 300, 0), normalize(ray));
-	s = new_scene(6, obj, new_p3d(0, 1000, 1000), cam);
+	s = new_scene(7, obj, new_p3d(255, 1000, 3000), cam);
 	s->bias = e->bias;
 	find_intersect(e, s);
 	e->changed = 0;
