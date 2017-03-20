@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 21:32:04 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/20 15:49:21 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,10 @@ int					find_nearest(t_scene *s, t_v3d dir, t_p3d *inter_p,
 ** ray_tools.c
 */
 
+double				v_sqr(t_v3d v);
+t_v3d				v_add(t_v3d v1, t_v3d v2);
+double				v_len(t_v3d v);
+t_v3d				v_sub(t_v3d v1, t_v3d v2);
 double				distance(t_p3d p1, t_p3d p2);
 t_v3d				new_v3d(double x, double y, double z);
 t_v3d				new_v3d_p(t_p3d p1, t_p3d p2);
@@ -232,7 +236,7 @@ t_v3d				rotate_v_y(t_v3d v, double sin_al, double cos_al);
 t_v3d				rotate_v_z(t_v3d v, double sin_al, double cos_al);
 t_v3d				normalize(t_v3d v);
 t_v3d				cross_product(t_v3d a, t_v3d b);
-t_v3d				mul_v3d(t_v3d v, double n);
+t_v3d				v_mul(t_v3d v, double n);
 t_p3d				rot_p(t_p3d p, t_v3d ang, t_p3d center);
 
 /*

@@ -6,11 +6,41 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 20:16:59 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 21:31:37 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/20 15:48:53 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+double		v_sqr(t_v3d v)
+{
+	return (dot_product(v, v));
+}
+
+t_v3d		v_add(t_v3d v1, t_v3d v2)
+{
+	t_v3d		res;
+
+	res.x = v1.x + v2.x;
+	res.y = v1.y + v2.y;
+	res.z = v1.z + v2.z;
+	return (res);
+}
+
+t_v3d		v_sub(t_v3d v1, t_v3d v2)
+{
+	t_v3d		res;
+
+	res.x = v1.x - v2.x;
+	res.y = v1.y - v2.y;
+	res.z = v1.z - v2.z;
+	return (res);
+}
+
+double		v_len(t_v3d v)
+{
+	return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
+}
 
 double		distance(t_p3d p1, t_p3d p2)
 {
@@ -110,7 +140,7 @@ t_v3d		cross_product(t_v3d a, t_v3d b)
 	return (res);
 }
 
-t_v3d		mul_v3d(t_v3d v, double n)
+t_v3d		v_mul(t_v3d v, double n)
 {
 	v.x *= n;
 	v.y *= n;
