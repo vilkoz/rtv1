@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 01:17:21 by tor              ###   ########.fr       */
+/*   Updated: 2017/03/20 11:09:15 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int			get_shifted_light(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
 				light_c = add_colors(light_c, mul_colors(light_c, cosv));
 		}
 		else
-			light_c = shade_colors(c, 0.1);
+			light_c = shade_colors(c, 0.95);
 		sum = mix_colors(sum, light_c);
 	}
 	return (sum);

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 19:12:32 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 22:11:44 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/20 11:35:23 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_v3d	get_norm_cone(void *dat, t_p3d inter_p)
 	if (inter_p.z < sp->center.z)
 		res = new_v3d(res.x - o.x, res.y - o.y, res.z - o.z);
 	else
-		res = new_v3d(o.x - res.x , o.y - res.y, o.z - res.z);
+		res = new_v3d(o.x - res.x, o.y - res.y, o.z - res.z);
 	return (normalize(res));
 }
 
