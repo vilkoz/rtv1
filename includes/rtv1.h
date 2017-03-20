@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 15:49:21 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/20 16:24:11 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@
 # define TRUE 1
 # define SWAP(a, b) do{(a) ^= (b); (b) ^= (a); (a) ^= (b);} while(0);
 # define SWAP_D(a, b) do{double tmp = (a); (a) = (b); (b) = (tmp);} while(0);
-# define A2 (sp->dir.x * sp->dir.x)
-# define B2 (sp->dir.y * sp->dir.y)
-# define C2 (sp->dir.z * sp->dir.z)
+# define COSA (sp->cos_a)
+# define SINA (sp->sin_a)
+# define COSA2 (sp->cos_a) * (sp->cos_a)
+# define SINA2 (sp->sin_a) * (sp->sin_a)
 
 # include "../libft/libft.h"
 # include "mlx.h"
@@ -201,6 +202,9 @@ typedef struct		s_cone
 	t_v3d			dir;
 	double			h;
 	int				color;
+	double			a;
+	double			sin_a;
+	double			cos_a;
 }					t_cone;
 
 t_e					*ft_mlx_init(void);
@@ -265,7 +269,7 @@ int					solve_quad(t_p3d p, double *t0, double *t1);
 t_o3d				*new_sphere(t_p3d center, double radius, int color);
 t_o3d				*new_plane(t_p3d p, t_v3d norm, int color);
 t_o3d				*new_cyl(t_vec v, double radius, double h, int color);
-t_o3d				*new_cone(t_vec v, double h, int color);
+t_o3d				*new_cone(t_vec v, double h, int color, double alpha);
 
 /*
 ** matrix.c

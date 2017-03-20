@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 19:12:32 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 22:11:44 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/20 21:19:22 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,16 @@
 t_v3d	get_norm_cone(void *dat, t_p3d inter_p)
 {
 	t_cone	*sp;
-	t_p3d	c_cen;
-	t_v3d	o;
-	t_v3d	res;
+	t_v3d	r;
+	t_v3d	dp;
+	t_v3d	n;
 
 	sp = (t_cone *)dat;
-	o = normalize(new_v3d_p(inter_p, sp->center));
-	c_cen = new_p3d(sp->center.x, sp->center.y, inter_p.z);
-	res = normalize(new_v3d_p(inter_p, c_cen));
-	if (inter_p.z < sp->center.z)
-		res = new_v3d(res.x - o.x, res.y - o.y, res.z - o.z);
-	else
-		res = new_v3d(o.x - res.x , o.y - res.y, o.z - res.z);
-	return (normalize(res));
+	dp = (new_v3d_p(inter_p, sp->center));
+	r = (v_sub(dp, v_mul(sp->dir, dot_product(sp->dir, dp))));
+	n = cross_product(dp, r);
+	n = cross_product(n, r);
+	return (normalize(r));
 }
 
 int		get_cone_color(void *data, t_p3d inter_p)
@@ -40,20 +37,21 @@ int		solve_quad_rot(const void *data, t_vec v, double *t0, double *t1)
 {
 	t_cone		*sp;
 	t_v3d		ray;
+	t_v3d		dp;
 	t_p3d		ray_start;
 
 	sp = (t_cone *)data;
 	ray = v.dir;
 	ray_start = v.p;
-	if (!solve_quad(new_p3d(ray.x * ray.x / A2 + ray.y * ray.y / B2 -
-							ray.z * ray.z / C2,
-		2. * (ray.x * (ray_start.x - sp->center.x) / A2 +
-			ray.y * (ray_start.y - sp->center.y) / B2 -
-			ray.z * (ray_start.z - sp->center.z) / C2),
-		(ray_start.x - sp->center.x) * (ray_start.x - sp->center.x) / A2 +
-		(ray_start.y - sp->center.y) * (ray_start.y - sp->center.y) / B2 -
-		(ray_start.z - sp->center.z) * (ray_start.z - sp->center.z) / C2),
-		t0, t1))
+	dp = new_v3d_p(ray_start, sp->center);
+	if (!solve_quad(new_p3d(
+		COSA2 * v_sqr(v_sub(ray, v_mul(sp->dir, dot_product(ray, sp->dir)))) -
+		SINA2 * dot_product(ray, sp->dir) * dot_product(ray, sp->dir),
+		2 * COSA2 * dot_product(v_sub(ray, v_mul(sp->dir, dot_product(ray,
+		sp->dir))), v_sub(dp, v_mul(sp->dir, dot_product(dp, sp->dir))))
+		- 2 * SINA2 * dot_product(ray, sp->dir) * dot_product(dp, sp->dir),
+		COSA2 * v_sqr(v_sub(dp, v_mul(sp->dir, dot_product(dp, sp->dir))))
+		- SINA2 * dot_product(dp, sp->dir) * dot_product(dp, sp->dir)), t0, t1))
 		return (FALSE);
 	return (TRUE);
 }
@@ -64,6 +62,7 @@ int		intersect_cone(const void *data, const t_p3d ray_start,
 	double		t0;
 	double		t1;
 	t_cone		*sp;
+	t_v3d		dp;
 
 	sp = (t_cone *)data;
 	if (!solve_quad_rot(data, new_vec(ray, ray_start), &t0, &t1))
@@ -73,18 +72,22 @@ int		intersect_cone(const void *data, const t_p3d ray_start,
 	if ((t0 < 0) && ((t0 = t1) < 0))
 		return (FALSE);
 	*inter_p = new_p3d(ray_start.x + t0 * ray.x, ray_start.y + t0 * ray.y,
-					ray_start.z + t0 * ray.z);
-	if (fabs(inter_p->z - sp->center.z) > fabs(sp->h))
+		ray_start.z + t0 * ray.z);
+	dp = new_v3d_p(*inter_p, sp->center);
+	if (sp->h - v_len(v_sub(dp, v_sub(dp, v_mul(sp->dir,
+		dot_product(sp->dir, dp))))) < 0)
 	{
 		*inter_p = new_p3d(ray_start.x + t1 * ray.x, ray_start.y + t1 * ray.y,
-						ray_start.z + t1 * ray.z);
-		if (fabs(inter_p->z - sp->center.z) > fabs(sp->h))
+			ray_start.z + t1 * ray.z);
+		dp = new_v3d_p(*inter_p, sp->center);
+		if (sp->h - v_len(v_sub(dp, v_sub(dp, v_mul(sp->dir,
+			dot_product(sp->dir, dp))))) < 0)
 			return (FALSE);
 	}
 	return (TRUE);
 }
 
-t_o3d	*new_cone(t_vec v, double h, int color)
+t_o3d	*new_cone(t_vec v, double h, int color, double alpha)
 {
 	t_cone		*sp;
 	t_o3d		*obj;
@@ -94,6 +97,9 @@ t_o3d	*new_cone(t_vec v, double h, int color)
 	sp->dir = v.dir;
 	sp->color = color;
 	sp->h = h;
+	sp->a = alpha;
+	sp->sin_a = sin(sp->a);
+	sp->cos_a = cos(sp->a);
 	obj = (t_o3d *)malloc(sizeof(t_o3d));
 	obj->data = (void *)sp;
 	obj->get_color = get_cone_color;

@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 15:38:01 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/20 21:20:35 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
 		norm = obj->get_norm(obj->data, p1);
 		p_b = new_p3d(p1.x + norm.x * s->bias, p1.y + norm.y * s->bias,
 			p1.z + norm.z * s->bias);
-		if (obj->intersect(obj->data, p_b, normalize(
-			new_v3d(p2.x - p_b.x, p2.y - p_b.y, p2.z - p_b.z)), &inter_p))
+		if (obj->intersect(obj->data, p_b, normalize(new_v3d_p(p2, p_b)),
+			&inter_p))
 			return (FALSE);
 	}
 	return (TRUE);
@@ -117,7 +117,7 @@ void		find_intersect(t_e *e, t_scene *s)
 
 void		example(t_e *e)
 {
-	t_o3d		*obj[6];
+	t_o3d		*obj[7];
 	t_v3d		ray;
 	t_scene		*s;
 	t_cam		cam;
@@ -128,12 +128,12 @@ void		example(t_e *e)
 	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
 	obj[4] = new_plane(new_p3d(0, 0, 0), new_v3d(0, 1, 0), 0xff50ff);
 	obj[5] = new_cyl(new_vec(new_v3d(0, -0.2, 1), new_p3d(255, 0, -300)),
-		100, 100, 0xffb0);
-	// obj[5] = new_cone(new_vec(new_v3d(1, 0.5, 1), new_p3d(255, 0, 0)),
-	// 	100, 0xffb0);
+		10, 10, 0xffb0);
+	obj[6] = new_cone(new_vec(new_v3d(0.1, 0, 1), new_p3d(255, 30, -200)),
+		100, 0xffb0, 30 * RAD);
 	ray = new_v3d(e->ang_x / 10., e->ang_y / 10., e->ang_z / 10.);
 	cam = new_cam(new_p3d(200, 300, 0), normalize(ray));
-	s = new_scene(6, obj, new_p3d(231, 1000, 140), cam);
+	s = new_scene(7, obj, new_p3d(1000, 400, 0), cam);
 	s->bias = e->bias;
 	find_intersect(e, s);
 	e->changed = 0;
