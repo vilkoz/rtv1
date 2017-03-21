@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 16:24:11 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/21 19:16:32 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,8 @@ int					find_nearest(t_scene *s, t_v3d dir, t_p3d *inter_p,
 ** ray_tools.c
 */
 
+int					same_dir(t_v3d v1, t_v3d v2);
+t_v3d				v_inv(t_v3d v);
 double				v_sqr(t_v3d v);
 t_v3d				v_add(t_v3d v1, t_v3d v2);
 double				v_len(t_v3d v);

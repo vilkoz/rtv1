@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 17:25:07 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 20:36:10 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/21 15:16:04 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_e			*ft_mlx_init(void)
 	e->ang_x = -2;
 	e->ang_y = -130;
 	e->ang_z = -13;
-	e->bias = 0.001;
+	e->bias = 0.01;
 	e->v_x = 0;
 	e->v_y = 0;
 	e->changed = 1;

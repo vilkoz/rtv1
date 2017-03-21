@@ -6,11 +6,24 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 20:16:59 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 15:48:53 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/21 19:16:19 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
+
+int			same_dir(t_v3d v1, t_v3d v2)
+{
+	if (acos(dot_product(normalize(v1), normalize(v2))) / RAD > 90)
+		return (FALSE);
+	else
+		return (TRUE);
+}
+
+t_v3d		v_inv(t_v3d v)
+{
+	return (v_sub(new_v3d(0, 0, 0), v));
+}
 
 double		v_sqr(t_v3d v)
 {
