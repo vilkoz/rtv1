@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/21 19:16:32 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/22 20:45:51 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,8 +152,10 @@ typedef struct		s_scene
 	int				obj_num;
 	t_o3d			**objects;
 	t_p3d			ls;
+	int				ls_num;
 	t_cam			cam;
 	double			bias;
+	int				cur_o;
 }					t_scene;
 
 /*
