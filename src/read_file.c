@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/22 18:57:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/23 19:44:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/24 00:24:03 by tor              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,9 @@ void		count_obj(t_scene *s, t_list *lst)
 	num_ls = 0;
 	while (tmp)
 	{
-		l = (char *)tmp->content;
+		l = (char *)(tmp->content);
 		if (ft_strlen(l) == 0 || ft_strlen(l) == 1)
-		{
-			ft_putstr("file sructure is incorrect\n");
-			exit(1);
-		}
+			read_error(NULL, 2);
 		if ((l[0] == 's' || l[0] == 'p' || l[0] == 'y' || l[0] == 'o') &&
 			l[1] == ' ')
 			num_o++;
@@ -50,6 +47,18 @@ void		count_obj(t_scene *s, t_list *lst)
 	}
 	s->obj_num = num_o;
 	s->ls_num = num_ls;
+}
+
+void		free_arr(char ***arr)
+{
+	int		i;
+
+	i = -1;
+	while ((*arr)[++i] != NULL)
+		free((*arr)[i]);
+	free(*arr);
+	if (arr != NULL)
+		*arr = NULL;
 }
 
 void		read_sphere(t_scene *s, char **arr)
@@ -75,6 +84,7 @@ void		read_sphere(t_scene *s, char **arr)
 	s->objects[s->cur_o] = new_sphere(new_p3d(sp.center.x, sp.center.y,
 		sp.center.z), sp.radius, sp.color);
 	s->cur_o++;
+	free_arr(&arr);
 }
 
 void		read_light(t_scene *s, char **arr)
@@ -95,6 +105,7 @@ void		read_light(t_scene *s, char **arr)
 	s->ls[s->cur_ls] = (t_p3d *)malloc(sizeof(t_p3d));
 	*s->ls[s->cur_ls] = new_p3d(p.x, p.y, p.z);
 	s->cur_ls++;
+	free_arr(&arr);
 }
 
 void		read_plane(t_scene *s, char **arr)
@@ -123,6 +134,7 @@ void		read_plane(t_scene *s, char **arr)
 	s->objects[s->cur_o] = new_plane(new_p3d(p.p.x, p.p.y, p.p.z),
 		new_v3d(p.norm.x, p.norm.y, p.norm.z), p.color);
 	s->cur_o++;
+	free_arr(&arr);
 }
 
 void		read_cam(t_scene *s, char **arr)
@@ -150,6 +162,7 @@ void		read_cam(t_scene *s, char **arr)
 		cam.dir;
 	s->cam = new_cam(new_p3d(cam.pos.x, cam.pos.y, cam.pos.z),
 		new_v3d(cam.dir.x, cam.dir.y, cam.dir.z));
+	free_arr(&arr);
 }
 
 void		init_cyl(t_cyl *c)
@@ -190,6 +203,7 @@ void		read_cyl(t_scene *s, char **arr)
 	s->objects[s->cur_o] = new_cyl(new_vec(new_v3d(c.dir.x, c.dir.y, c.dir.z),
 		new_p3d(c.center.x, c.center.y, c.center.z)), c.radius, c.h, c.color);
 	s->cur_o++;
+	free_arr(&arr);
 }
 
 void		init_cone(t_cone *c)
@@ -230,6 +244,7 @@ void		read_cone(t_scene *s, char **arr)
 	s->objects[s->cur_o] = new_cone(new_vec(new_v3d(c.dir.x, c.dir.y, c.dir.z),
 		new_p3d(c.center.x, c.center.y, c.center.z)), c.h, c.color, c.a);
 	s->cur_o++;
+	free_arr(&arr);
 }
 
 void		read_lines(t_scene *s, t_list *lst)

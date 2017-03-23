@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/23 18:30:57 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/24 00:27:09 by tor              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -211,7 +211,7 @@ typedef struct		s_cone
 	double			cos_a;
 }					t_cone;
 
-t_e					*ft_mlx_init(void);
+t_e					*ft_mlx_init(t_scene *s);
 void				ft_img_px_put(t_e *e, int x, int y, int rgb);
 void				ft_mlx_events(t_e *e);
 int					loop_hook(t_e *e);
