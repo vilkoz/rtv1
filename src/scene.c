@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 16:27:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 17:52:40 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/23 19:29:50 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,10 @@ t_cam		new_cam(t_p3d pos, t_v3d dir)
 	t_cam		cam;
 
 	cam.pos = pos;
-	cam.dir = dir;
-	cam.dir_d = normalize(cross_product(dir, normalize(new_v3d(1, 1, 1))));
-	cam.dir_r = normalize(cross_product(cam.dir_d, dir));
+	cam.dir = normalize(dir);
+	cam.dir_d = normalize((cross_product(cam.dir,
+		normalize(new_v3d(0, 0, 1)))));
+	cam.dir_r = normalize((cross_product(cam.dir_d, dir)));
 	cam.cos.x = cos(cam.dir.x);
 	cam.cos.y = cos(cam.dir.y);
 	cam.cos.z = cos(cam.dir.z);
@@ -73,10 +74,14 @@ t_scene		*new_scene(int obj_num, t_o3d **obj, t_p3d ls, t_cam cam)
 {
 	t_scene		*new;
 
+	(void)ls;
 	new = (t_scene *)malloc(sizeof(t_scene));
 	new->obj_num = obj_num;
 	new->objects = obj;
-	new->ls = ls;
+	new->ls = NULL;
+	new->ls_num = 0;
 	new->cam = cam;
+	new->cur_o = 0;
+	new->cur_ls = 0;
 	return (new);
 }

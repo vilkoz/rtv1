@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/21 20:19:50 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/23 18:40:19 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
 	{
 		obj = s->objects[i];
 		norm = obj->get_norm(obj->data, p1);
-		if (same_dir(new_v3d_p(p1, s->ls), norm))
+		if (same_dir(new_v3d_p(p1, p2), norm))
 			v_inv(norm);
 		p_b = new_p3d(p1.x + norm.x * s->bias, p1.y + norm.y * s->bias,
 			p1.z + norm.z * s->bias);
 		if (obj->intersect(obj->data, p_b, normalize(new_v3d_p(p2, p_b)),
 			&inter_p))
 		{
-			if (distance(p1, inter_p) > distance(p1, s->ls))
+			if (distance(p1, inter_p) > distance(p1, p2))
 				return (TRUE);
 			return (FALSE);
 		}
@@ -43,14 +43,16 @@ int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
 int			get_light_color(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
 {
 	t_v3d		v_ls;
+	t_p3d		ls;
 	double		cosv;
 	int			light_c;
 
-	if (is_viewable(inter_p, s->ls, s))
+	ls = s->ls[0][0];
+	if (is_viewable(inter_p, ls, s))
 	{
 		light_c = add_colors(c, mul_colors(0xffffff, 0.4));
-		v_ls = normalize(new_v3d(s->ls.x - inter_p.x, s->ls.y - inter_p.y,
-			s->ls.z - inter_p.z));
+		v_ls = normalize(new_v3d(ls.x - inter_p.x, ls.y - inter_p.y,
+			ls.z - inter_p.z));
 		cosv = (dot_product(normalize(norm), normalize(v_ls)) - 0.95) * 20;
 		if ((cosv) < 0.1)
 			light_c = shade_colors(light_c, (1 - cosv) / 21);
@@ -142,5 +144,12 @@ void		example(t_e *e)
 	s = new_scene(7, obj, new_p3d(255, 1000, -300), cam);
 	s->bias = e->bias;
 	find_intersect(e, s);
+	e->changed = 0;
+}
+
+void		render(t_e *e)
+{
+	e->s->bias = e->bias;
+	find_intersect(e, e->s);
 	e->changed = 0;
 }

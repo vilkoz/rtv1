@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 17:13:21 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 20:35:54 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/23 19:01:27 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ int		key_press(int key, t_e *e)
 	(key == 121) ? e->k.rot_z = 1 : 23;
 	(key == 24) ? e->k.bias = 1 : 23;
 	(key == 27) ? e->k.bias = -1 : 23;
+	e->changed = 1;
 	return (0);
 }
 
@@ -48,7 +49,7 @@ int		loop_hook(t_e *e)
 	(e->k.rot_z == -1) ? e->ang_z -= 1 : 23;
 	(e->k.bias == -1) ? e->bias -= 0.1 : 23;
 	(e->k.bias == 1) ? e->bias += 0.1 : 23;
-	example(e);
+	render(e);
 	mlx_clear_window(e->mlx, e->win);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
 	return (0);

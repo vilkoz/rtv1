@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 19:12:32 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/21 18:16:33 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/23 16:45:01 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ t_o3d	*new_cone(t_vec v, double h, int color, double alpha)
 	sp->dir = v.dir;
 	sp->color = color;
 	sp->h = h;
-	sp->a = alpha;
+	sp->a = alpha * RAD;
 	sp->sin_a = sin(sp->a);
 	sp->cos_a = cos(sp->a);
 	obj = (t_o3d *)malloc(sizeof(t_o3d));

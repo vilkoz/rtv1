@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/08 15:26:45 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/21 15:41:24 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/23 18:55:46 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		expose_hook(t_e *e)
 {
 	mlx_clear_window(e->mlx, e->win);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
-	e->changed = 1;
 	return (0);
 }
 

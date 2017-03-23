@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 20:16:59 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/21 19:16:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/23 19:22:37 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ t_v3d		normalize(t_v3d v)
 	double		len;
 
 	len = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	if (len == 0)
+		len = 1;
 	return (new_v3d(v.x / len, v.y / len, v.z / len));
 }
 

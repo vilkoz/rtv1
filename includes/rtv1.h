@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/22 20:45:51 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/23 18:30:57 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,28 @@ typedef struct		s_lst
 	struct s_lst	*next;
 }					t_lst;
 
+typedef struct		s_cam
+{
+	t_p3d			pos;
+	t_v3d			dir;
+	t_v3d			dir_d;
+	t_v3d			dir_r;
+	t_p3d			sin;
+	t_p3d			cos;
+}					t_cam;
+
+typedef struct		s_scene
+{
+	int				obj_num;
+	t_o3d			**objects;
+	t_p3d			**ls;
+	int				ls_num;
+	t_cam			cam;
+	double			bias;
+	int				cur_o;
+	int				cur_ls;
+}					t_scene;
+
 typedef struct		s_e
 {
 	void			*mlx;
@@ -135,28 +157,8 @@ typedef struct		s_e
 	double			bias;
 	int				changed;
 	t_k				k;
+	t_scene			*s;
 }					t_e;
-
-typedef struct		s_cam
-{
-	t_p3d			pos;
-	t_v3d			dir;
-	t_v3d			dir_d;
-	t_v3d			dir_r;
-	t_p3d			sin;
-	t_p3d			cos;
-}					t_cam;
-
-typedef struct		s_scene
-{
-	int				obj_num;
-	t_o3d			**objects;
-	t_p3d			ls;
-	int				ls_num;
-	t_cam			cam;
-	double			bias;
-	int				cur_o;
-}					t_scene;
 
 /*
 ** OBJECTS:
@@ -220,6 +222,7 @@ int					move_hook(int x, int y, t_e *e);
 int					intersect_sphere(const void *data, const t_p3d ray_start,
 						const t_v3d ray, t_p3d *inter_p);
 void				example(t_e *e);
+void				render(t_e *e);
 int					find_nearest(t_scene *s, t_v3d dir, t_p3d *inter_p,
 					t_o3d **obj1);
 
@@ -284,5 +287,11 @@ t_mat				mat_mul(t_mat a, t_mat b);
 t_mat				new_mat(t_v3d x, t_v3d y, t_v3d z);
 t_mat				new_mat_ang_x(double ang);
 t_mat				new_mat1(t_v3d x);
+
+/*
+** read_file.c
+*/
+
+t_scene				*read_file(char *name);
 
 #endif
