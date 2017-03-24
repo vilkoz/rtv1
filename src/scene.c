@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 16:27:17 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/23 19:29:50 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/24 23:45:41 by tor              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ t_v3d		pix_vector(t_p2d p, t_scene *s)
 {
 	t_v3d		dir;
 
-	dir = new_v3d(s->cam.pos.x + 400. * s->cam.dir.x,
-		s->cam.pos.y + 400. * s->cam.dir.y,
-		s->cam.pos.z + 400. * s->cam.dir.z);
+	dir = new_v3d(s->cam.pos.x + 1. * s->cam.dir.x,
+		s->cam.pos.y + 1. * s->cam.dir.y,
+		s->cam.pos.z + 1. * s->cam.dir.z);
 	dir = new_v3d(dir.x + p.x * s->cam.dir_r.x,
 		dir.y + p.x * s->cam.dir_r.y,
 		dir.z + p.x * s->cam.dir_r.z);

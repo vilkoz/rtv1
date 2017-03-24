@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 18:40:30 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/24 23:48:27 by tor              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define SINA (sp->sin_a)
 # define COSA2 (sp->cos_a) * (sp->cos_a)
 # define SINA2 (sp->sin_a) * (sp->sin_a)
+# define ASP ((double)((double)e->w / (double)e->h))
 
 # include "../libft/libft.h"
 # include "mlx.h"

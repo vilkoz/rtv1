@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 17:13:21 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 18:48:08 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/25 00:50:53 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int		key_press(int key, t_e *e)
 	(key == 121) ? e->k.rot_z = 1 : 23;
 	(key == 24) ? e->k.bias = 1 : 23;
 	(key == 27) ? e->k.bias = -1 : 23;
-	e->changed = 1;
+//	e->changed = 1;
 	return (0);
 }
 

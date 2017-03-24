@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 18:47:03 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/24 23:48:35 by tor              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ void		find_intersect(t_e *e, t_scene *s)
 		p1.x = -1;
 		while (++p1.x < e->w)
 		{
-			p.x = (p1.x - e->w / 2.0);
-			p.y = (p1.y - e->h / 2.0);
+			p.x = ((p1.x - e->w / 2.0) / e->w) * ASP;
+			p.y = (p1.y - e->h / 2.0) / e->h;
 			if (find_nearest(s, pix_vector(p, s), &inter_p, &obj))
 				ft_img_px_put(e, p1.x, p1.y, get_light_color(s,
 					obj, inter_p, obj->get_color(obj->data, inter_p)));
