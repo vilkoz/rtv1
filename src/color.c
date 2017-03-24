@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:22:27 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/19 01:25:01 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/24 18:39:55 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,20 @@ int		add_colors(int cl1, int cl2)
 	res.r = c1.r + c2.r;
 	res.g = c1.g + c2.g;
 	res.b = c1.b + c2.b;
+	return (new_color(res));
+}
+
+int		mix_colors(int cl1, int cl2)
+{
+	t_rgb	c1;
+	t_rgb	c2;
+	t_rgb	res;
+
+	c1 = int_to_rgb(cl1);
+	c2 = int_to_rgb(cl2);
+	res.r = sqrt(c1.r * c1.r + c2.r * c2.r);
+	res.g = sqrt(c1.g * c1.g + c2.g * c2.g);
+	res.b = sqrt(c1.b * c1.b + c2.b * c2.b);
 	return (new_color(res));
 }
 

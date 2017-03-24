@@ -1,4 +1,4 @@
-c 300 600 0 -3 -10 0
+c 600 350 1100 -6 -10 -15
 l 600 1000 300
 # o center: x y z dir: x y z alpha height color
 o 200 0 300 14 0 -11 30 10000 0xffff00

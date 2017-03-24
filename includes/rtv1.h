@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 00:27:09 by tor              ###   ########.fr       */
+/*   Updated: 2017/03/24 18:40:30 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -267,6 +267,7 @@ t_v3d				pix_vector(t_p2d p, t_scene *s);
 int					add_colors(int cl1, int cl2);
 int					mul_colors(int cl1, double k);
 int					shade_colors(int cl1, double k);
+int					mix_colors(int cl1, int cl2);
 
 /*
 ** objects

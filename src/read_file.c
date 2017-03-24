@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/22 18:57:56 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 00:24:03 by tor              ###   ########.fr       */
+/*   Updated: 2017/03/24 19:00:29 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -241,8 +241,9 @@ void		read_cone(t_scene *s, char **arr)
 	}
 	c.dir = (!c.dir.x && !c.dir.y && !c.dir.z) ? new_v3d(0, 1, 0) :
 		c.dir;
-	s->objects[s->cur_o] = new_cone(new_vec(new_v3d(c.dir.x, c.dir.y, c.dir.z),
-		new_p3d(c.center.x, c.center.y, c.center.z)), c.h, c.color, c.a);
+	s->objects[s->cur_o] = new_cone(new_vec(normalize(new_v3d(c.dir.x, c.dir.y,
+		c.dir.z)), new_p3d(c.center.x, c.center.y, c.center.z)), c.h, c.color,
+		c.a);
 	s->cur_o++;
 	free_arr(&arr);
 }
@@ -296,7 +297,8 @@ t_scene		*read_file(char *name)
 	s = new_scene(0, NULL, new_p3d(255, 1000, -300), cam);
 	while (get_next_line(fd, &line) > 0)
 	{
-		ft_lstadd(&lst, ft_lstnew((void*)line, ft_strlen(line) * sizeof(char)));
+		ft_lstadd(&lst, ft_lstnew((void*)line, ft_strlen(line) *
+			sizeof(char) + 1));
 		free(line);
 	}
 	count_obj(s, lst);

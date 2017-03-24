@@ -6,13 +6,13 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/23 18:40:19 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/24 18:47:03 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
 
-int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
+int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s, t_o3d *obj1)
 {
 	int		i;
 	t_o3d	*obj;
@@ -21,47 +21,50 @@ int			is_viewable(t_p3d p1, t_p3d p2, t_scene *s)
 	t_p3d	p_b;
 
 	i = -1;
+	norm = obj1->get_norm(obj1->data, p1);
+	p_b = new_p3d(p1.x + norm.x * s->bias, p1.y + norm.y * s->bias,
+		p1.z + norm.z * s->bias);
 	while (++i < s->obj_num)
 	{
 		obj = s->objects[i];
-		norm = obj->get_norm(obj->data, p1);
-		if (same_dir(new_v3d_p(p1, p2), norm))
-			v_inv(norm);
-		p_b = new_p3d(p1.x + norm.x * s->bias, p1.y + norm.y * s->bias,
-			p1.z + norm.z * s->bias);
 		if (obj->intersect(obj->data, p_b, normalize(new_v3d_p(p2, p_b)),
 			&inter_p))
 		{
 			if (distance(p1, inter_p) > distance(p1, p2))
-				return (TRUE);
+				continue ;
 			return (FALSE);
 		}
 	}
 	return (TRUE);
 }
 
-int			get_light_color(t_scene *s, t_v3d norm, t_p3d inter_p, int c)
+int			get_light_color(t_scene *s, t_o3d *obj, t_p3d inter_p, int c)
 {
-	t_v3d		v_ls;
-	t_p3d		ls;
 	double		cosv;
 	int			light_c;
+	int			ret_c;
+	t_v3d		norm;
+	int			i;
 
-	ls = s->ls[0][0];
-	if (is_viewable(inter_p, ls, s))
+	norm = obj->get_norm(obj->data, inter_p);
+	i = -1;
+	while (++i < s->ls_num)
 	{
-		light_c = add_colors(c, mul_colors(0xffffff, 0.4));
-		v_ls = normalize(new_v3d(ls.x - inter_p.x, ls.y - inter_p.y,
-			ls.z - inter_p.z));
-		cosv = (dot_product(normalize(norm), normalize(v_ls)) - 0.95) * 20;
-		if ((cosv) < 0.1)
-			light_c = shade_colors(light_c, (1 - cosv) / 21);
+		if (is_viewable(inter_p, *s->ls[i], s, obj))
+		{
+			light_c = add_colors(c, mul_colors(0xffffff, 0.4));
+			cosv = (dot_product(normalize(norm), normalize(new_v3d_p(*s->ls[i],
+				inter_p))) - 0.95) * 20;
+			if ((cosv) < 0.1)
+				light_c = shade_colors(light_c, (1 - cosv) / 21);
+			else
+				light_c = add_colors(light_c, mul_colors(light_c, cosv));
+		}
 		else
-			light_c = add_colors(light_c, mul_colors(light_c, cosv));
+			light_c = shade_colors(c, 0.975);
+		ret_c = (i == 0) ? light_c : mix_colors(ret_c, light_c);
 	}
-	else
-		light_c = shade_colors(c, 0.975);
-	return (light_c);
+	return (ret_c);
 }
 
 /*
@@ -115,36 +118,11 @@ void		find_intersect(t_e *e, t_scene *s)
 			p.y = (p1.y - e->h / 2.0);
 			if (find_nearest(s, pix_vector(p, s), &inter_p, &obj))
 				ft_img_px_put(e, p1.x, p1.y, get_light_color(s,
-					obj->get_norm(obj->data, inter_p), inter_p,
-					obj->get_color(obj->data, inter_p)));
+					obj, inter_p, obj->get_color(obj->data, inter_p)));
 			if (e->v_x == p1.x && e->v_y == p1.y)
 				printf("inter_p = %f %f %f\n", inter_p.x, inter_p.y, inter_p.z);
 		}
 	}
-}
-
-void		example(t_e *e)
-{
-	t_o3d		*obj[7];
-	t_v3d		ray;
-	t_scene		*s;
-	t_cam		cam;
-
-	obj[0] = new_sphere(new_p3d(30, 0, 30), 10, 0xff0000);
-	obj[1] = new_sphere(new_p3d(-30, 0, -30), 10, 0xff00);
-	obj[2] = new_sphere(new_p3d(30, 0, -30), 10, 0xffa0);
-	obj[3] = new_sphere(new_p3d(-30, 0, 30), 10, 0xffb0);
-	obj[4] = new_plane(new_p3d(0, 0, 0), new_v3d(0, 1, 0), 0xff50ff);
-	obj[5] = new_cyl(new_vec(new_v3d(0, 1, 0.6), new_p3d(255, 100, -300)),
-		100, 300, 0xffb0);
-	obj[6] = new_cone(new_vec(new_v3d(0.1, 0, 1), new_p3d(255, 100, -200)),
-		6, 0xffb0, 30 * RAD);
-	ray = new_v3d(e->ang_x / 10., e->ang_y / 10., e->ang_z / 10.);
-	cam = new_cam(new_p3d(200, 700, 0), normalize(ray));
-	s = new_scene(7, obj, new_p3d(255, 1000, -300), cam);
-	s->bias = e->bias;
-	find_intersect(e, s);
-	e->changed = 0;
 }
 
 void		render(t_e *e)
