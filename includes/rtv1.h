@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/13 16:11:37 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 23:48:27 by tor              ###   ########.fr       */
+/*   Updated: 2017/03/25 17:27:58 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,6 +213,7 @@ typedef struct		s_cone
 }					t_cone;
 
 t_e					*ft_mlx_init(t_scene *s);
+void				put_loading(t_e *e);
 void				ft_img_px_put(t_e *e, int x, int y, int rgb);
 void				ft_mlx_events(t_e *e);
 int					loop_hook(t_e *e);
@@ -269,6 +270,7 @@ int					add_colors(int cl1, int cl2);
 int					mul_colors(int cl1, double k);
 int					shade_colors(int cl1, double k);
 int					mix_colors(int cl1, int cl2);
+int					new_color(t_rgb res);
 
 /*
 ** objects
@@ -295,5 +297,11 @@ t_mat				new_mat1(t_v3d x);
 */
 
 t_scene				*read_file(char *name);
+void				free_arr(char ***arr);
+void				read_sphere(t_scene *s, char **arr);
+void				read_light(t_scene *s, char **arr);
+void				read_plane(t_scene *s, char **arr);
+void				read_cam(t_scene *s, char **arr);
+void				read_lines(t_scene *s, t_list *lst);
 
 #endif

@@ -6,22 +6,11 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:22:27 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 18:39:55 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/25 17:17:32 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rtv1.h"
-
-int		new_color(t_rgb res)
-{
-	res.r = (res.r < 0) ? 0 : res.r;
-	res.r = (res.r > 255) ? 255 : res.r;
-	res.g = (res.g < 0) ? 0 : res.g;
-	res.g = (res.g > 255) ? 255 : res.g;
-	res.b = (res.b < 0) ? 0 : res.b;
-	res.b = (res.b > 255) ? 255 : res.b;
-	return (res.r << 16 | res.g << 8 | res.b);
-}
 
 t_rgb	int_to_rgb(int c)
 {
