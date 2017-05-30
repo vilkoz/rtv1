@@ -6,7 +6,7 @@
 #    By: vrybalko <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 14:08:11 by vrybalko          #+#    #+#              #
-#    Updated: 2017/04/23 23:58:32 by tor              ###   ########.fr        #
+#    Updated: 2017/05/30 17:47:26 by vrybalko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,17 +99,8 @@ $(NAME): $(BINS)
 
 clean:
 	/bin/rm -f $(BINS)
-	/bin/rm -f $(TEST_BINS)
 
 fclean: clean
-	/bin/rm -f $(NAME)_test
 	/bin/rm -f $(NAME)
 
 re: fclean all
-
-f: all
-	@date
-	@echo "\033[38;5;93mLINKING:\033[0m"
-	gcc -o $(NAME)_test $(TEST) $(NAME)
-	@echo "\033[38;5;93mRUNNING:\033[0m"
-	./$(NAME)_test

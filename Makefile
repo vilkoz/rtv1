@@ -6,7 +6,7 @@
 #    By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/11/23 14:08:11 by vrybalko          #+#    #+#              #
-#    Updated: 2017/05/30 17:00:00 by vrybalko         ###   ########.fr        #
+#    Updated: 2017/05/30 17:46:42 by vrybalko         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,14 +22,18 @@ FLAGS = -Wall -Wextra -Werror -I$(IDIR) -g
 
 UNAME_S = $(shell uname -s)
 
+LIB = libft/libft.a
+
 ifeq ($(UNAME_S),Darwin)
-	FLAGS_MLX = -lmlx -framework OpenGl -framework AppKit
+	FLAGS_MLX = -lmlx -framework OpenGl -framework AppKit -Lminilibx_macos/
+	MLX_DIR = minilibx_macos
+	LIB += $(MLX_DIR)/libmlx.a
 endif
 ifeq ($(UNAME_S),Linux)
-	FLAGS_MLX = -lmlx -lXext -lX11 -lm
+	FLAGS_MLX = -lmlx -lXext -lX11 -lm -Lminilibx/
+	MLX_DIR = minilibx
+	LIB += $(MLX_DIR)/libmlx.a
 endif
-
-LIB = libft/libft.a
 
 SRCS = main.c			\
        ft_hooks.c		\
@@ -51,8 +55,11 @@ BINS = $(addprefix $(BIN_DIR), $(SRCS:.c=.o))
 
 all: $(NAME)
 
-$(NAME): $(BINS)
+makelib:
 	make -C libft/
+	make -C $(MLX_DIR)
+
+$(NAME): $(BINS) makelib
 	gcc -o $(NAME) $(BINS) $(FLAGS) $(FLAGS_MLX) $(LIB)
 
 $(BIN_DIR)%.o: %.c
@@ -60,6 +67,7 @@ $(BIN_DIR)%.o: %.c
 
 clean:
 	make -C libft/ clean
+	make -C $(MLX_DIR) clean
 	/bin/rm -f $(BINS)
 
 fclean: clean
