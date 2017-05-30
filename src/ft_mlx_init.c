@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/07 17:25:07 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 00:26:49 by tor              ###   ########.fr       */
+/*   Updated: 2017/05/30 17:56:57 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ t_e			*ft_mlx_init(t_scene *s)
 
 	e = (t_e *)malloc(sizeof(t_e));
 	if ((e->mlx = mlx_init()) == NULL)
+	{
+		ft_putendl("Could not connect to X11");
+		exit(1);
 		return (NULL);
+	}
 	e->h = 700;
 	e->w = 1300;
 	e->win = mlx_new_window(e->mlx, e->w, e->h, "rtv1");
