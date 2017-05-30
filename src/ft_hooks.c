@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/02/14 17:13:21 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/25 00:50:53 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/25 16:33:50 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,7 @@ int		key_press(int key, t_e *e)
 {
 	if (key == 53)
 		exit(0);
-	(key == 123) ? e->k.rot_x = -1 : 23;
-	(key == 124) ? e->k.rot_x = 1 : 23;
-	(key == 125) ? e->k.rot_y = -1 : 23;
-	(key == 126) ? e->k.rot_y = 1 : 23;
-	(key == 116) ? e->k.rot_z = -1 : 23;
-	(key == 121) ? e->k.rot_z = 1 : 23;
-	(key == 24) ? e->k.bias = 1 : 23;
-	(key == 27) ? e->k.bias = -1 : 23;
-//	e->changed = 1;
+	(void)e;
 	return (0);
 }
 
@@ -32,10 +24,12 @@ int		key_release(int key, t_e *e)
 {
 	if (key == 53)
 		exit(0);
-	(key == 123 || key == 124) ? e->k.rot_x = 0 : 23;
-	(key == 125 || key == 126) ? e->k.rot_y = 0 : 23;
-	(key == 116 || key == 121) ? e->k.rot_z = 0 : 23;
-	(key == 24 || key == 27) ? e->k.bias = 0 : 23;
+	if (key == 36)
+	{
+		mlx_loop_hook(e->mlx, loop_hook, e);
+		e->changed = 2;
+	}
+	(void)e;
 	return (0);
 }
 
@@ -43,17 +37,18 @@ int		loop_hook(t_e *e)
 {
 	if (e->changed == 0)
 		return (0);
-	(e->k.rot_x == 1) ? e->ang_x += 1 : 23;
-	(e->k.rot_x == -1) ? e->ang_x -= 1 : 23;
-	(e->k.rot_y == 1) ? e->ang_y += 1 : 23;
-	(e->k.rot_y == -1) ? e->ang_y -= 1 : 23;
-	(e->k.rot_z == 1) ? e->ang_z += 1 : 23;
-	(e->k.rot_z == -1) ? e->ang_z -= 1 : 23;
-	(e->k.bias == -1) ? e->bias -= 0.1 : 23;
-	(e->k.bias == 1) ? e->bias += 0.1 : 23;
+	else if (e->changed == 2)
+	{
+		mlx_clear_window(e->mlx, e->win);
+		put_loading(e);
+		e->changed = 1;
+		return (0);
+	}
 	render(e);
 	mlx_clear_window(e->mlx, e->win);
 	mlx_put_image_to_window(e->mlx, e->win, e->img, 0, 0);
+	e->changed = 0;
+	mlx_loop_hook(e->mlx, NULL, NULL);
 	return (0);
 }
 

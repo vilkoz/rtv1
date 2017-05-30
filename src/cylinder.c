@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/19 15:28:14 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/20 15:52:04 by vrybalko         ###   ########.fr       */
+/*   Updated: 2017/03/25 17:15:01 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int		intersect_cyl(const void *data, const t_p3d ray_start,
 	sp = (t_cyl *)data;
 	if (!solver(sp, new_vec(ray, ray_start), &t0, &t1))
 		return (FALSE);
-	if (t0 > t1)
-		SWAP_D(t0, t1);
 	if ((t0 < 0) && ((t0 = t1) < 0))
 		return (FALSE);
 	*inter_p = new_p3d(ray_start.x + t0 * ray.x, ray_start.y + t0 * ray.y,

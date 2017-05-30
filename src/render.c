@@ -6,7 +6,7 @@
 /*   By: vrybalko <vrybalko@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/03/15 17:36:47 by vrybalko          #+#    #+#             */
-/*   Updated: 2017/03/24 23:48:35 by tor              ###   ########.fr       */
+/*   Updated: 2017/03/25 16:57:18 by vrybalko         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,8 +119,6 @@ void		find_intersect(t_e *e, t_scene *s)
 			if (find_nearest(s, pix_vector(p, s), &inter_p, &obj))
 				ft_img_px_put(e, p1.x, p1.y, get_light_color(s,
 					obj, inter_p, obj->get_color(obj->data, inter_p)));
-			if (e->v_x == p1.x && e->v_y == p1.y)
-				printf("inter_p = %f %f %f\n", inter_p.x, inter_p.y, inter_p.z);
 		}
 	}
 }
